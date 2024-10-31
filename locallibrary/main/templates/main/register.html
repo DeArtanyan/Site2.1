@@ -11,9 +11,18 @@
     <div class="form-container">
         <h2>Регистрация</h2>
         <form method="post">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Имя" class="form-control">
+            <input type="text" name="surname" placeholder="Фамилия" class="form-control">
+            <input type="text" name="username" placeholder="Отчевство" class="form-control">
             <input type="text" name="username" placeholder="Имя пользователя" class="form-control">
             <input type="password" name="password1" placeholder="Пароль" class="form-control">
             <input type="password" name="password2" placeholder="Подтвердите пароль" class="form-control">
+            <label>Пол:</label><br>
+            <input type="radio" name="gender" value="man" id="gender_man" required>
+            <label for="gender_man">Мужской</label>
+            <input type="radio" name="gender" value="girl" id="gender_girl" required>
+            <label for="gender_girl">Женский</label>
             <button type="submit">Зарегистрироваться</button>
         </form>
         <p><a href="{% url 'login' %}">Уже есть аккаунт? Войти</a></p>
