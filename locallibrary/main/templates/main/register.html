@@ -12,19 +12,34 @@
         <h2>Регистрация</h2>
         <form method="post">
             {% csrf_token %}
-            <input type="text" name="name" placeholder="Имя" class="form-control">
-            <input type="text" name="surname" placeholder="Фамилия" class="form-control">
-            <input type="text" name="username" placeholder="Отчевство" class="form-control">
-            <input type="text" name="username" placeholder="Имя пользователя" class="form-control">
-            <input type="password" name="password1" placeholder="Пароль" class="form-control">
-            <input type="password" name="password2" placeholder="Подтвердите пароль" class="form-control">
+            <input type="text" name="first_name" placeholder="Имя" class="form-control" required>
+            <input type="text" name="last_name" placeholder="Фамилия" class="form-control" required>
+            <input type="text" name="patronymic" placeholder="Отчество" class="form-control">
+            <input type="text" name="username" placeholder="Имя пользователя" class="form-control" required>
+            <input type="password" name="password1" placeholder="Пароль" class="form-control" required>
+            <input type="password" name="password2" placeholder="Подтвердите пароль" class="form-control" required>
+
             <label>Пол:</label><br>
-            <input type="radio" name="gender" value="man" id="gender_man" required>
-            <label for="gender_man">Мужской</label>
-            <input type="radio" name="gender" value="girl" id="gender_girl" required>
-            <label for="gender_girl">Женский</label>
+            <input type="radio" name="gender" value="male" id="gender_male" required>
+            <label for="gender_male">Мужской</label>
+            <input type="radio" name="gender" value="female" id="gender_female" required>
+            <label for="gender_female">Женский</label>
+
             <button type="submit">Зарегистрироваться</button>
         </form>
+
+        {% if form.errors %}
+            <div class="form-errors">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ field }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
         <p><a href="{% url 'login' %}">Уже есть аккаунт? Войти</a></p>
     </div>
 </div>
