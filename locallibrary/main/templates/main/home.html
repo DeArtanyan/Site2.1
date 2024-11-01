@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
 </head>
 <body>
-  <h1>Главная страница</h1>
-  <a href="{% url 'login' %}">Войти</a> | <a href="{% url 'register' %}">Зарегистрироваться</a>
+
+    <header class="header">
+        <div class="header-left">Design.pro</div>
+        <div class="header-center">Главная Страница</div>
+        <div class="header-right">
+            <a href="{% url 'register' %}" class="header-button">Регистрация</a>
+            <a href="{% url 'login' %}" class="header-button">Вход</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1>Добро пожаловать на сайт Design.pro!</h1>
+    </main>
 </body>
 </html>

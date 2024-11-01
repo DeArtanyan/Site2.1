@@ -23,3 +23,50 @@ button {
     padding: 10px;
     cursor: pointer;
 }
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff; /* Синий цвет */
+    padding: 10px 20px;
+    color: white;
+}
+
+.header-left, .header-center, .header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-left {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-center {
+    font-size: 18px;
+}
+
+.header-right .header-button {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    padding: 5px 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.header-right .header-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.main-content {
+    padding: 20px;
+    text-align: center;
+}
