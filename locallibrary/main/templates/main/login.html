@@ -1,22 +1,25 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Вход</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'main/style.css' %}">
-</head>
-<body>
-<div class="centered-form">
-    <div class="form-container">
-        <h2>Вход</h2>
-        <form method="post">
-            {% csrf_token %}
-            <input type="text" name="username" placeholder="Имя пользователя" class="form-control">
-            <input type="password" name="password" placeholder="Пароль" class="form-control">
-            <button type="submit">Войти</button>
-        </form>
-    </div>
-</div>
-</body>
-</html>
+{% extends 'main/base.html' %} 
+ 
+{% block title %}Вход{% endblock %} 
+ 
+{% block content %} 
+<div class="centered-form"> 
+    <div class="form-container"> 
+        <h2>Вход</h2> 
+        <form method="post"> 
+            {% csrf_token %} 
+            <input type="text" name="username" placeholder="Имя пользователя" class="form-control" required> 
+            <input type="password" name="password" placeholder="Пароль" class="form-control" required> 
+            <button type="submit">Войти</button> 
+ 
+            {% if messages %} 
+                <div class="form-errors"> 
+                    {% for message in messages %} 
+                        <p style="color: red;">{{ message }}</p>
+                    {% endfor %} 
+                </div> 
+            {% endif %} 
+        </form> 
+    </div> 
+</div> 
+{% endblock %}

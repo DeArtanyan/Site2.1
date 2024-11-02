@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-  <h1>Личный кабинет</h1>
-  <p>Добро пожаловать, {{ user.username }}!</p>
-  <a href="{% url 'logout' %}">Выйти</a>
-</body>
-</html>
+{% extends 'main/base.html' %} 
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Ваш личный кабинет</h2>
+    <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+
+    <a href="{% url 'create_request' %}" class="header-button create-request">Создать заявку на дизайн</a>
+</div> 
+{% endblock %}

@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Главная страница</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'main/style.css' %}">
-</head>
-<body>
-
-    <header class="header">
-        <div class="header-left">Design.pro</div>
-        <div class="header-center">Главная Страница</div>
-        <div class="header-right">
-            <a href="{% url 'register' %}" class="header-button">Регистрация</a>
-            <a href="{% url 'login' %}" class="header-button">Вход</a>
-        </div>
-    </header>
-
-    <main class="main-content">
-        <h1>Добро пожаловать на сайт Design.pro!</h1>
-    </main>
-</body>
-</html>
+{% extends 'main/base.html' %} 
+ 
+{% block title %}Главная страница{% endblock %} 
+ 
+{% block content %} 
+<h1>Добро пожаловать на сайт Design.pro!</h1> 
+{% if message %} 
+    <p>{{ message }}</p> 
+{% endif %} 
+{% endblock %}
