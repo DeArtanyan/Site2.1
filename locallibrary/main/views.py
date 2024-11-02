@@ -36,10 +36,12 @@ def custom_login(request):
             messages.error(request, "Не правильный логин или пароль")
     return render(request, 'main/login.html')
 
+from .forms import DesignRequest
 
 @login_required
 def profile(request):
-    return render(request, 'main/profile.html')
+    user_requests = DesignRequest.objects.filter(user=request.user)
+    return render(request, 'main/profile.html', {'user_requests': user_requests})
 
 
 from django.shortcuts import render, redirect
@@ -52,9 +54,21 @@ def create_request(request):
     if request.method == 'POST':
         form = RequestForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            design_request = form.save(commit=False)
+            design_request.user = request.user
+            design_request.save()
             messages.success(request, "Заявка успешно создана!")
             return redirect('profile')
     else:
         form = RequestForm()
     return render(request, 'main/create_request.html', {'form': form})
+
+from django.shortcuts import get_object_or_404
+
+@login_required
+def delete_request(request, request_id):
+    design_request = get_object_or_404(DesignRequest, id=request_id, user=request.user)
+    if request.method == 'POST':
+        design_request.delete()
+        messages.success(request, "Заявка успешно удалена!")
+        return redirect('profile')

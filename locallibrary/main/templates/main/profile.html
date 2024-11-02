@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %} 
+{% extends 'main/base.html' %}
 
 {% block title %}Профиль{% endblock %}
 
@@ -10,5 +10,27 @@
     <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
 
     <a href="{% url 'create_request' %}" class="header-button create-request">Создать заявку на дизайн</a>
-</div> 
+
+    <h3>Ваши заявки:</h3>
+    {% if user_requests %}
+        <div class="requests-container">
+            {% for request in user_requests %}
+                <div class="request-card">
+                    <img src="{{ request.photo.url }}" alt="Фото заявки" class="request-image"/>
+                    <div class="request-info">
+                        <h4>Название: {{ request.title }}</h4>
+                        <p>Описание: {{ request.description }}</p>
+                        <p class="request-category">Категория: <strong>{{ request.category }}</strong></p>
+                        <form method="post" action="{% url 'delete_request' request.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button">Удалить заявку</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>У вас пока нет заявок.</p>
+    {% endif %}
+</div>
 {% endblock %}
