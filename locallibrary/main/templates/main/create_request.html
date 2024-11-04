@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Создание заявки{% endblock %}
+
+{% block content %}
+<div class="centered-form">
+    <div class="form-container">
+        <h2>Создание заявки на разработку дизайна интерьера</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Название" class="form-control" required>
+            <textarea name="description" placeholder="Описание" class="form-control" required></textarea>
+
+            <label for="category">Категория:</label>
+            <select name="category" id="category" class="form-control" required>
+                <option value="3D">3D дизайн</option>
+                <option value="2D">2D дизайн</option>
+                <option value="sketch">Эскиз</option>
+            </select>
+
+            <input type="file" name="photo" class="form-control" required>
+            <button type="submit">Создать заявку</button>
+        </form>
+
+        {% if form.errors %}
+            <div class="form-errors">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ field }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

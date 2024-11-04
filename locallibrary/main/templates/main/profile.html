@@ -1,12 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-  <h1>Личный кабинет</h1>
-  <p>Добро пожаловать, {{ user.username }}!</p>
-  <a href="{% url 'logout' %}">Выйти</a>
-</body>
-</html>
+{% extends 'main/base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'main/style.css' %}">
+
+{% block content %}
+<div class="profile-container">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="{% if message.tags %}{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h2>Ваш личный кабинет</h2>
+    <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+
+    <a href="{% url 'create_request' %}" class="header-button create-request">Создать заявку на дизайн</a>
+
+    <div class="filter-container">
+        <form method="get" action="{% url 'profile' %}">
+            <label for="status">Фильтр по статусу:</label>
+            <select name="status" id="status" class="status-filter" onchange="this.form.submit()">
+                <option value="">Все</option>
+                <option value="new" {% if selected_status == 'new' %}selected{% endif %}>Новая</option>
+                <option value="in_progress" {% if selected_status == 'in_progress' %}selected{% endif %}>В процессе</option>
+                <option value="completed" {% if selected_status == 'completed' %}selected{% endif %}>Завершена</option>
+            </select>
+        </form>
+    </div>
+
+    <h3>Ваши заявки:</h3>
+    {% if user_requests %}
+        <div class="requests-container">
+            {% for request in user_requests %}
+            <div class="request-card">
+                <img src="{{ request.photo.url }}" alt="Фото заявки" class="request-image"/>
+                <div class="request-info">
+                    <h4>{{ request.title }}</h4>
+                    <p>{{ request.description }}</p>
+                    <p class="request-category">Категория: <strong>{{ request.category }}</strong></p>
+                    <p class="request-status">Статус: <strong>{{ request.get_status_display }}</strong></p>
+                    <form method="post" action="{% url 'delete_request' request.id %}" style="display:inline;" onsubmit="return confirmDelete('{{ request.status }}');">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Удалить заявку</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>У вас пока нет заявок.</p>
+    {% endif %}
+</div>
+
+<script>
+    function confirmDelete(status) {
+        if (status === 'in_progress' || status === 'completed') {
+            alert("Вы не можете удалить заявку, которая находится в работе или завершена");
+            return false;
+        }
+        return confirm("Вы уверены, что хотите удалить эту заявку?");
+    }
+</script>
+{% endblock %}
